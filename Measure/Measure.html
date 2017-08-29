@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+  <head>
+    <title>TrackingObserver: Automated Measurement</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+    <link href='font-awesome-4.3.0/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
+    <style>
+        body {
+                font-family: 'Open Sans', sans-serif;
+	}
+	#error {
+		color: red;
+        text-align: center;
+	}
+    #success {
+		color: green;
+        text-align: center;
+	}
+    #config {
+        margin-left:auto;
+        margin-right:auto;
+        width: 400px;
+        padding: 20px 20px 20px 20px;
+        border: 2px solid #000000;
+        background-color:#c2c2c2;
+    }
+    #progress {
+      margin-left:auto;
+      margin-right:auto;
+      text-align: center;
+    }
+    .fa-cog {
+      width: 36px;
+    }
+    .available {
+      background-color:#90EE90;
+    }
+    .down {
+      background-color:#F2003C;
+    }
+    </style>
+    <script src="Measure.js"></script>
+  </head>
+
+  <body>
+    <h1>TrackingObserver: Automated Measurement</h1>
+
+    You can use TrackingObserver to run an automated measurement of tracking on the Web.
+    Designate a file containing a list of URLs to visit (one on each line), and TrackingObserver will open a new tab and automatically visit each URL in turn. 
+    <br><br>
+    You can specify how long you'd like each page to stay open, giving sufficient time for trackers to load on the page.
+    If you'd like to stop mid-measurement, simply close the tab in which TrackingObserver is automatically loading pages. <strong>Unfortunately, the parallelism changes seem to break this working cleanly. In principle, it should still work. If it's a problem, let Adam know.</strong>
+    <br><br>
+    Please note that starting a measurement will clear all stored tracking data.
+
+    <div id="linkToTests"><a href="Tests.html">Unit Tests</a></div>
+
+    <br><br>
+    <div id="config">
+
+      <input type="file" id="files" name="file" />
+
+
+      <br><br>
+      Number of seconds to remain on a page (default is 10):
+      <br>
+      <input type="number" id="seconds" name="seconds" min="1" value="10"/>
+
+      <br><br>
+      Number of parallel tabs to use (default is 1):
+      <br>
+      <input type="number" id="numberOfTabs" name="numberOfTabs" min="1" value="1"/>
+
+      <br><br>
+      Number of links to visit on each page in the URL list (default is 0):
+      <br>
+      <input type="number" id="links" name="links" min="0" value="0"/>
+
+      <br><br>
+      <label for="waybackMode"> Wayback Mode</label>
+      <input type="checkbox" id="waybackMode" name="waybackMode" value="Wayback Mode">
+      <br>
+      WaybackTime (yearmonthdayhourminsec) - year is 4 digits and required, others are 2 digits:
+      <br>
+      <input type="number" id="waybackTime" name="waybackTime" min="0" />
+      
+      <br><br>
+      <label for="notes">Notes:</label>
+      <textarea id="notes" name="notes"></textarea>
+
+      <br><br>
+      <label for="loggingServer">Logging Server:</label>
+      <input size="70" type="text" id="loggingServer" name="loggingServer" value="ws://localhost:8765"/>
+
+      <br><br>
+      <label for="sequential">Number of times to repeat the run (default 0):</label>
+      <input type="number" id="sequential" name="sequential" min="0" value="0" />
+
+      <br><br>
+      <button type="button" id="run" disabled="true">Run automated measurement!</button>
+
+
+    </div>
+    <div id="progress">
+        <i id="modifyAndChunkURLs" class="progressIcon fa fa-3x fa-cog"></i>
+        <i id="setOptions" class="progressIcon fa fa-3x fa-cog"></i>
+        <i id="clearData" class="progressIcon fa fa-3x fa-cog"></i>
+        <i id="configureRun" class="progressIcon fa fa-3x fa-cog"></i>
+        <i id="getPlatformVersion" class="progressIcon fa fa-3x fa-cog"></i>
+        <i id="sendRunStartToServer" class="progressIcon fa fa-3x fa-cog"></i>
+        <i id="setFirstPassInPlatform" class="progressIcon fa fa-3x fa-cog"></i>
+        <i id="runFirstHalf" class="progressIcon fa fa-3x fa-cog"></i>
+        <i id="setSecondPassInPlatform" class="progressIcon fa fa-3x fa-cog"></i>
+        <i id="runSecondHalf" class="progressIcon fa fa-3x fa-cog"></i>
+        <i id="completeMeasurement" class="progressIcon fa fa-3x fa-cog"></i>
+        <i id="getStatsFromPlatform" class="progressIcon fa fa-3x fa-cog"></i>
+        <i id="finalizeRunInfoAtServer" class="progressIcon fa fa-3x fa-cog"></i>
+        <i id="clearPlatformRunName" class="progressIcon fa fa-3x fa-cog"></i>
+    </div>
+
+
+
+
+    <br>
+    <div id="error"></div>
+    <div id="success"></div>
+    <div id="tabsClosed">0/0</div>
+    <div id="runName">Run name</div>
+
+
+    <script src="lib/jquery-2.1.4.min.js"></script>
+    <script src="lib/q.js"></script>
+  </body>
+
+</html>
+

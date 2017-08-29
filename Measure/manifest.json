@@ -1,0 +1,21 @@
+{
+  "key":"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1Wjm7p+Qu9IS2L2hvJ91spzWBuMBBPQ7KEAA3RFtvKWMcAN1MgwvebwuaJXBfnaz8LWzGASzFGgF1F8icTAfj9mSMgk+TW3yGgQaIK6BtsnH32FTazfoK/yA0VoyIpSAt8b/63jFfhtfsWXggOeMVijYsduQw7bZFiz2NH7dvjL+FzEitxu5l46VrFsxMAGVF/FNSojrN99jfh1PGoTIt7ElK71S3sjoZDX55tTm9lSZ92FD1h96LaKXMI7ck2HvlHcR29mWHxAImOvlVYFeswsZG3LM9S2tAE6kn33saGQW4nsPpj2D7+LwHxWurzs1AmT6VlyP2l1FqnpJFGJrwwIDAQAB",
+  "name": "TrackingObserver Add-On: Measurement",
+  "version": "0.1.38",
+  "manifest_version": 2,
+  
+  "description": "Add-on to TrackingObserver that lets you run automated measurements.",
+  
+  "permissions": [
+    "http://*.archive.org/",
+    "https://*.archive.org/",
+    "http://localhost/*",
+    "background",
+    "tabs"
+  ],
+  
+  "background": {
+    "scripts": ["Background.js"],
+    "persistent": true
+  }
+}

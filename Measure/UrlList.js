@@ -1,0 +1,1 @@
+cfg.urls =["http://www.linuxquestions.org/questions/linux-desktop-74/how-create-sudoers-file-943426/"]
