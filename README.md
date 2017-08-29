@@ -6,6 +6,11 @@ release of the TrackingExcavator system from "Internet Jones and the Raiders of
 the Lost Trackers: An Archaeological Study of Web Tracking from 1996 to 2016.",
 which appeared in USENIX 2016. 
 
+You can find the websites for the two papers at:
+
+Internet Jones: https://trackingexcavator.cs.washington.edu
+Rewriting History: https://rewritinghistory.cs.washington.edu
+
 The system consists of several components which fit together in a way
 quite reminiscent of a research prototype. The components are:
 
