@@ -1,0 +1,14 @@
+The logging server runs inside a Python virtual environment to make sure that all dependencies are present.
+
+Installation Instructions
+
+- Clone the repo, and cd into the repo
+- If needed, pip install virtualenv
+- virtualenv -p python3 venv
+- source venv/bin/activate
+- pip install -r requirements.txt
+
+Running instructions
+- cd into the repo
+- source venv/bin/activate
+- ./loggingServer.py
