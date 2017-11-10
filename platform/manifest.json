@@ -1,0 +1,68 @@
+{
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr8IUvOUbrjiU7WhU9N1pSVWtqsr+TshLvVREebkGy22FJGi657Hk7G39V1U2w6SfsksJv6oHwshVOmkcTryjxF/72SfaNmaiZ98LaK88IB2KhMqw2i6zApT+UUOL9VgXG6A5HsIiZr6c2lxO/VwdhC27nhmfQBsu05R4YlTgFEyzRgXMA6UextcLyA5T9JOvvCbXBIesKakchwjnCsG5EhJdmHBG16eGDSEgeojsird7tu6vPvOL57X4gu4MM7lDjfk8PCpTP22TvpATLQVY+U+GjWsQmO8qg2OGlBGOdLD7tV9vrgMz/sKBeHNoBCtNg0dc4di1w/UL7MLsGUBWHwIDAQAB", 
+    "content_scripts": [
+        {
+            "matches": [
+                "http://*/*", 
+                "https://*/*"
+            ], 
+            "match_about_blank": true,
+            "all_frames": true, 
+            "run_at": "document_start", 
+            "js": [
+                "psl.min.js", 
+                "lib/sha256.js",
+                "AdLists.js",
+                "ContentScript.js"
+            ]
+        }, 
+        {
+            "matches": [
+                "http://*/*", 
+                "https://*/*"
+            ], 
+            "match_about_blank": true,
+            "all_frames": true, 
+            "run_at": "document_start", 
+            "js": [
+                "ContentScript-FP.js"
+            ]
+        }
+    ], 
+    "name": "TrackingObserver (w/ FP)", 
+    "icons": {
+        "128": "Icons/128.png", 
+        "48": "Icons/48.png", 
+        "16": "Icons/16.png"
+    }, 
+    "manifest_version": 2, 
+    "version": "0.1.77",
+    "background": {
+        "persistent": true, 
+        "scripts": [
+            "lib/jquery-2.1.4.min.js",
+            "Background.js", 
+            "WaybackProcessing.js",
+            "lib/q.js"
+        ]
+    }, 
+    "permissions": [
+        "background", 
+        "cookies", 
+        "history", 
+        "management", 
+        "storage", 
+        "tabs", 
+        "webRequest", 
+        "webRequestBlocking", 
+        "webNavigation", 
+        "http://*/*", 
+        "https://*/*"
+    ], 
+    "browser_action": {
+        "default_title": "TrackingObserver", 
+        "default_icon": "Icons/16.png", 
+        "default_popup": "Popup.html"
+    }, 
+    "description": "A web tracking information platform."
+}

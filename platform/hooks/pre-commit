@@ -1,0 +1,13 @@
+#!/usr/bin/env python
+
+import subprocess
+import sys
+
+output = subprocess.check_output('git diff --name-only --cached'.split())
+output = output.decode().split('\n')
+if any([line == 'manifest.json' for line in output]):
+  print('Pre-commit passed! Good job updating the manifest version.')
+  sys.exit(0)
+else:
+  print('Pre-commit failed! Update the version number in manifest.json each commit.')
+  sys.exit(-1)

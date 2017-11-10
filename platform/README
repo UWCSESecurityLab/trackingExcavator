@@ -1,0 +1,123 @@
+
+This is an internal version of TrackingObserver (http://trackingobserver.cs.washington.edu/) that includes rudimentary support for detecting fingerprint-based tracking. The ContentScript_FP.js content script hooks JavaScript APIs and reports their use to the Background.js script, which uses some basic heuristics to mark trackers as doing fingerprinting.
+
+**** USING TRACKING OBSERVER +FP ****
+
+For TrackingObserver to show you useful information, you need to install some add-ons to it: http://trackingobserver.cs.washington.edu/download.html. For example, the Per-Tab Visualization add-on is useful for seeing what TrackingObserver detected on a given tab. The Measurement add-on is good for automatically visiting a list of sites, and the Raw Data Display add-on is good for seeing a dump of all of TrackingObserver’s data.
+
+IMPORTANT NOTE: It probably won't work to just install the add-ons from the Chrome extension store. The reasons is that the add-ons reference TrackingObserver by ID in order to communicate with it. You need to install trackingobserver_fp, look at chrome://extensions to see what ID it has, and modify the to_id variable in any add-on you want to install to match that ID. Then you can install the add-on.
+
+If you want reminders to update your manifest version, you should symlink hooks/precommit into your .git/hooks directory, like so (using ABSOLUTE PATHS):
+
+    ln -s <pathToRepo>/hooks/pre-commit <pathToRepo>/.git/hooks/pre-commit
+
+
+**** TRACKING TYPES ****
+
+A: Analytics tracking (within-site)
+B: Vanilla tracking (cross-site)
+C: Forced tracking (cross-site)
+D: Referred tracking (cross-site)
+E: Personal tracking (cross-site)
+F: Referred analytics tracking (within-site)
+G: Fingerprint-based tracking (cross-site)
+
+Categories A-E are described in the NSDI 2012 paper (http://www.franziroesner.com/pdf/webtracking-NSDI2012.pdf). Categories F and G are new.
+
+
+**** CREATING ADD-ONS TO TRACKING OBSERVER ****
+
+
+==== HOW TO CALL AN API ====
+
+	var to_id = "pipjjigjoddgiafmpngcikpldcoflhla";
+	// need to use the correct extension ID for TrackingObserver, 
+	// see chrome://extensions
+
+	chrome.runtime.sendMessage(to_id, 
+    		{type : '<API name here>', 
+    		<other possible arguments here>},
+    		function(response) {
+        		// do something with the response, if applicable
+    	});
+
+
+See example add-ons to TrackingObserver at http://trackingobserver.cs.washington.edu/download.html.
+
+
+==== TRACKINGOBSERVER'S PUBLIC APIS ====
+
+registerAddon
+	- Description: Registers your add-on to be known to TrackingObserver.
+	- Arguments: name, link
+	- Result: Returns nothing. 
+		  TrackingObserver will put <a href=link>name</a> into its popup.
+		  Also, it will send you a message with type "trackingNotification"
+		  and argument tabId whenever it logs tracking on a tab.
+	- Example use: see trackingtracker_chrome_apps/tabinfo
+
+getTrackers
+	- Description: Get info about all trackers that have been logged.
+	- Arguments: none
+	- Result: Returns a map of tracker domain --> object: {domain, categoryList, trackedSites}
+	- Example use: see trackingtracker_chrome_apps/graph
+
+getTrackersOnCurrentTab
+	- Description: Get trackers that were logged on the most recent load of the active tab.
+	- Arguments: none
+	- Result: Return a map of tracker domain -> categories (list of strings)
+	- Example use: see trackingtracker_chrome_apps/tabinfo
+
+getTrackersBySite
+	- Description: Get trackers indexed by site on which they were logged.
+	- Arguments: none
+	- Result: Returns a map of site domain --> map of tracker domain --> categories (list of strings)
+	- Example use: see trackingtracker_chrome_apps/rawdata
+
+browseAutomatically
+	- Description: Drives the browser to browse automatically to run tracking measurements.
+	- Arguments: urls, loadtime, visits
+	- Result: Returns error or success response.
+		  Browses automatically through lists of urls, letting each load for loadtime seconds,
+		  and visiting an additional visits number of links mined from each url in the 
+		  original list. 
+	- Example use: see trackingtracker_chrome_apps/measure
+
+blockTrackerDomain
+	- Description: Block trackers from this domain.
+	- Arguments: domain
+	- Result: Returns nothing. Causes TrackingObserver to start blocking third-party requests to
+		  this domain.
+	- Example use: see trackingtracker_chrome_apps/tabinfo
+
+unblockTrackerDomain
+	- Description: Unblock trackers from this domain.
+	- Arguments: domain
+	- Result: Returns nothing. Causes TrackingObserver to stop blocking third-party requests to
+		  this domain.
+	- Example use: see trackingtracker_chrome_apps/tabinfo
+
+trackerDomainBlocked
+	- Description: Find out if TrackingObserver is currently blocking third-party requests
+		       to the specified domain.
+	- Arguments: domain
+	- Result: Returns true if the tracker is blocked and false otherwise.
+	- Example use: see trackingtracker_chrome_apps/tabinfo
+
+removeCookiesForTrackerDomain
+	- Description: Start removing cookies from requests to this domain.
+	- Arguments: domain
+	- Result: Returns nothing. Causes TrackingObserver to start removing cookies from third-party requests to this domain.
+	- Example use: none
+
+stopRemoveCookiesForTrackerDomain
+	- Description: Stop removing cookies from requests to this domain.
+	- Arguments: none
+	- Result: Returns nothing. Causes TrackingObserver to stop removing cookies from third-party requests to this domain.
+	- Example use: none
+
+getRemoveCookieDomains
+	- Description: Find out which domains are on the cookie-removal list.
+	- Arguments: none
+	- Result: Returns a list of domains to which third-party requests have cookies removed.
+	- Example use: none
